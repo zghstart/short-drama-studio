@@ -1,0 +1,18 @@
+{
+  "characters": [
+    {
+      "id": "C01",
+      "name": "主角",
+      "appearance_reference": null,
+      "wardrobe_reference": null,
+      "voice_reference": null,
+      "invariants": [],
+      "allowed_changes": [],
+      "status": "planned"
+    }
+  ],
+  "locations": [],
+  "props": [],
+  "shot_states": [],
+  "notes": "填入实际素材及控制范围；planned 不代表已经生成或验收。"
+}

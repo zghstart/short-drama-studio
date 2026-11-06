@@ -1,0 +1,4 @@
+interface:
+  display_name: "短剧制作工作室"
+  short_description: "从剧本、导演分镜到角色一致性、视频生成、字幕剪辑和成片验收"
+  default_prompt: "使用 $short-drama-studio 把我的人物参考和故事想法制作成短剧，先完成当前请求的阶段，再按已授权范围推进。"

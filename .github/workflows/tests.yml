@@ -1,0 +1,40 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install media tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Check skill metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+          text = Path('SKILL.md').read_text()
+          meta = yaml.safe_load(text.split('---', 2)[1])
+          assert meta['name'] == 'short-drama-studio'
+          assert isinstance(meta['description'], str) and meta['description'].strip()
+          ui = yaml.safe_load(Path('agents/openai.yaml').read_text())
+          assert '$short-drama-studio' in ui['interface']['default_prompt']
+          PY
+      - name: Run offline workflow and media tests
+        run: python -m unittest discover -s tests -v
